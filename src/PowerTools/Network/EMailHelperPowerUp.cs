@@ -1,6 +1,5 @@
 ﻿using System;
 using MailKit.Net.Smtp;
-using MailKit;
 using MimeKit;
 using MailKit.Net.Pop3;
 

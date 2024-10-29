@@ -4,6 +4,7 @@ using MQTTnet;
 using MQTTnet.Core;
 using MQTTnet.Core.Client;
 using MQTTnet.Core.Protocol;
+using Network;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,9 +13,9 @@ using System.Threading.Tasks;
 
 namespace PowerTools_Test
 {
-    internal class Program
+    internal static class mqtt2
     {
-        static async Task Main(string[] args)
+        public static async Task T1(string[] args)
         {
             string broker = "2a5accc12feb4870b886423fe758fc7d.s1.eu.hivemq.cloud";
             //            int port = 8883;
@@ -48,7 +49,7 @@ namespace PowerTools_Test
 
                 await mqttClient.ConnectAsync(mqttClientOptions);
 
-            var appMsg = new MqttApplicationMessage("Csharp/mqtt", Encoding.UTF8.GetBytes("消息内容"), MqttQualityOfServiceLevel.AtLeastOnce, false);
+            var appMsg = new MqttApplicationMessage("Csharp/mqtt", Encoding.UTF8.GetBytes("消息内容" + DateTime.Now.ToString()), MqttQualityOfServiceLevel.AtLeastOnce, false);
 
             await mqttClient.PublishAsync(appMsg);
 
@@ -56,6 +57,13 @@ namespace PowerTools_Test
 
                 Console.WriteLine("MQTT application message is published.");
             
+        }
+
+
+        public static async Task T2()
+        {
+            string broker = "2a5accc12feb4870b886423fe758fc7d.s1.eu.hivemq.cloud";
+            await MqttHelper.PublishMessage(broker, 8883, Guid.NewGuid().ToString(), "renyi", "123", "Csharp/mqtt", 1, "消息内容22222:" + DateTime.Now.ToString(), 60000);
         }
     }
 }
