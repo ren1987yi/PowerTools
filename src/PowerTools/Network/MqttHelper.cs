@@ -42,7 +42,7 @@ namespace Network
 
 
 
-                return new MqttClient(mqttClient);
+                return new MqttClient(mqttClient,mqttClientOptions);
             }catch 
             {
                 mqttClient = null;

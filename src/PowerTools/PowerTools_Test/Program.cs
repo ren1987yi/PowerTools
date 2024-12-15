@@ -1,4 +1,6 @@
-﻿using System.Net.Mail;
+﻿#define EMAIL
+#define MQTT1
+using System.Net.Mail;
 using System.Net;
 using Network;
 
@@ -11,41 +13,68 @@ namespace PowerTools_Test
 
             //Console.WriteLine("Hello, World!");
 
-
+#if EMAIL
             Console.WriteLine("Start Test the Email");
 
-            EMailTest.SendMail();
+            //EMailTest.SendMail();
+            //EMailTest.SendMail2();
 
-            EMailTest.RecvEmail();
+            //EMailTest.RecvEmail();
+
+            var client = new EMailClient(new EMailSetting()
+            {
+                FromAddress = "ren1987yi@163.com",
+                Smtp = new SmtpSetting()
+                {
+                    Server = "smtp.163.com",
+                    Port = 25,
+                    EnableSSL = false,
+                    Timeout = 60000,
+                    Username = "ren1987yi",
+                    Password = "DESMPZh2qiNjSQ5G"
+                }
+            });
+
+
+
+            client.SendMessage(new string[] { "ren1987yi@163.com" }, "test1", $"this is new {DateTime.Now}");
 
             Console.WriteLine("End Test the Email");
 
+#endif
+
+//await mqtt2.T1(null);
+//Console.WriteLine(1);
 
 
-            //await mqtt2.T1(null);
-            //Console.WriteLine(1);
+//await mqtt2.T2();
+//Console.WriteLine(2);
 
-
-            //await mqtt2.T2();
-            //Console.WriteLine(2);
-
-
-
-            string broker = "2a5accc12feb4870b886423fe758fc7d.s1.eu.hivemq.cloud";
-            //await MqttHelper.PublishMessage(broker, 8883, Guid.NewGuid().ToString(), "renyi", "123", "Csharp/mqtt", 1, "消息内容22222:" + DateTime.Now.ToString(), 5000);
-            var client = await MqttHelper.ConnectAsync(broker, 8883, Guid.NewGuid().ToString(), "renyi", "123",5000,60000);
-
-            for(var i = 0; i < 100; i++)
+#if tttttt
+            if (1 == 2)
             {
 
-                var v = DateTime.Now.Second;
-                client.PublishMessageSync("Csharp/mqtt", 1, "消息内容22222:" + DateTime.Now.ToString() + "  " + i.ToString(), true);
-            }
+                string broker = "2a5accc12feb4870b886423fe758fc7d.s1.eu.hivemq.cloud";
+                //await MqttHelper.PublishMessage(broker, 8883, Guid.NewGuid().ToString(), "renyi", "123", "Csharp/mqtt", 1, "消息内容22222:" + DateTime.Now.ToString(), 5000);
+                var client = await MqttHelper.ConnectAsync(broker, 8883, Guid.NewGuid().ToString(), "renyi", "123", 5000, 60000);
 
+                for (var i = 0; i < 100; i++)
+                {
 
-            
-
+                    var v = DateTime.Now.Second;
+                    client.PublishMessageSync("Csharp/mqtt", 1, "消息内容22222:" + DateTime.Now.ToString() + "  " + i.ToString(), true);
+                }
             Console.WriteLine(3);
+            }
+#endif
+
+#if MQTT
+            await mqtt2.T1(null);
+
+
+
+#endif
+
             //         var client = new SmtpClient("smtp.163.com", 25)
             //         {
             //             Credentials = new NetworkCredential("ren1987yi", "DESMPZh2qiNjSQ5G"),

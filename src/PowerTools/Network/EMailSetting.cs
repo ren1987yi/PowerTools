@@ -1,0 +1,14 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Network
+{
+    public class EMailSetting
+    {
+        public string FromAddress { get; set; }
+        public SmtpSetting Smtp {  get; set; }
+    }
+}

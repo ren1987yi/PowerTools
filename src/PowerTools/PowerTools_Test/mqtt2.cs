@@ -3,6 +3,7 @@
 using MQTTnet;
 using MQTTnet.Core;
 using MQTTnet.Core.Client;
+using MQTTnet.Core.Packets;
 using MQTTnet.Core.Protocol;
 using Network;
 using System;
@@ -43,7 +44,7 @@ namespace PowerTools_Test
                 
 
             };
-
+            mqttClient.ApplicationMessageReceived += MqttClient_ApplicationMessageReceived;
             mqttClientOptions.Port = 8883;
 
 
@@ -52,13 +53,26 @@ namespace PowerTools_Test
             var appMsg = new MqttApplicationMessage("Csharp/mqtt", Encoding.UTF8.GetBytes("消息内容" + DateTime.Now.ToString()), MqttQualityOfServiceLevel.AtLeastOnce, false);
 
             await mqttClient.PublishAsync(appMsg);
+                Console.WriteLine("MQTT application message is published.");
+            await mqttClient.SubscribeAsync(new TopicFilter[] { new TopicFilter("mqtt2", MqttQualityOfServiceLevel.ExactlyOnce)  });
+            Console.WriteLine("MQTT application message is subscribed.");
+            Console.WriteLine("press the key will be exit");
+            Console.ReadLine();
+
 
             await mqttClient.DisconnectAsync();
 
-                Console.WriteLine("MQTT application message is published.");
             
         }
 
+        private static void MqttClient_ApplicationMessageReceived(object? sender, MqttApplicationMessageReceivedEventArgs e)
+        {
+            //throw new NotImplementedException();
+            var topic = e.ApplicationMessage.Topic;
+            var body = Encoding.UTF8.GetString(e.ApplicationMessage.Payload);
+
+            Console.WriteLine($"{topic}: {body}");
+        }
 
         public static async Task T2()
         {
