@@ -4,10 +4,12 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Version>0.0.0.1-alpha</Version>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NetCoreServer" Version="8.0.7.1-beta" />
+    <PackageReference Include="DotNetWebServer" Version="0.0.1.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
